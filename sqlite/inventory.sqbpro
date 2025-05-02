@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="inventory.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="2573"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><table title="inventory_type" custom_title="0" dock_id="2" table="4,14:maininventory_type"/><table title="inventory_group" custom_title="0" dock_id="1" table="4,15:maininventory_group"/><table title="inventory_country" custom_title="0" dock_id="3" table="4,17:maininventory_country"/><dock_state state="000000ff00000000fd0000000100000002000005bb00000387fc0100000001fc00000000000005bb0000011e00fffffffa000000020100000003fb000000160064006f0063006b00420072006f00770073006500310100000000ffffffff0000011e00fffffffb000000160064006f0063006b00420072006f00770073006500320100000000ffffffff0000011e00fffffffb000000160064006f0063006b00420072006f00770073006500330100000000ffffffff0000011e00ffffff000005bb0000000000000004000000040000000800000008fc00000000"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="inventory_country" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="69"/><column index="2" value="60"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="inventory_group" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort><column index="1" mode="0"/></sort><column_widths><column index="1" value="58"/><column index="2" value="80"/><column index="3" value="115"/><column index="4" value="133"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="inventory_type" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="51"/><column index="2" value="35"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table></browse_table_settings></tab_browse><tab_sql><sql name="SQL 1*">CREATE TABLE inventory_type (
+id_type INTEGER PRIMARY KEY NOT NULL,
+type TEXT NOT NULL
+);
+
+CREATE TABLE inventory_country (
+id_country INTEGER PRIMARY KEY NOT NULL,
+country TEXT NOT NULL
+);
+
+
+CREATE TABLE inventory_group (
+id_group INTEGER PRIMARY KEY NOT NULL,
+group_ TEXT NOT NULL,
+reference_type_id INTEGER NOT NULL,
+reference_country_id INTEGER NOT NULL,
+
+FOREIGN KEY (reference_type_id) REFERENCES inventory_type(id_type),
+FOREIGN KEY (reference_country_id) REFERENCES inventory_country(id_country)
+);
+SELECT * FROM inventory_group;
+
+CREATE TABLE inventory_group (
+id_group INTEGER PRIMARY KEY NOT NULL,
+group_name TEXT NOT NULL,
+reference_type_id INTEGER NOT NULL,
+reference_country_id INTEGER NOT NULL,
+
+FOREIGN KEY (reference_type_id) REFERENCES inventory_type(id_type),
+FOREIGN KEY (reference_country_id) REFERENCES inventory_country(id_country)
+);
+
+
+CREATE TABLE inventory_condition (
+id_condition INTEGER PRIMARY KEY NOT NULL,
+condition TEXT NOT NULL
+);
+
+
+CREATE TABLE inventory_users (
+id_user INTEGER PRIMARY KEY NOT NULL,
+name TEXT NOT NULL,
+position TEXT NOT NULL,
+reference_country_id TEXT NOT NULL,
+
+FOREIGN KEY (reference_country_id) REFERENCES inventory_country(id_country)
+);
+
+CREATE TABLE inventory (
+id_item INTEGER PRIMARY KEY NOT NULL,
+reference_group_id INTEGER NOT NULL,
+reference_country_id INTEGER NOT NULL,
+description TEXT,
+brand TEXT,
+model TEXT,
+purchase_date DATE,
+expiration_daet DATE,
+
+FOREIGN KEY (reference_group_id) REFERENCES inventory_group(id_group),
+FOREIGN KEY (reference_country_id) REFERENCES inventory_country(id_country)
+);
+
+CREATE TABLE inventory (
+id_item INTEGER PRIMARY KEY NOT NULL,
+reference_group_id INTEGER NOT NULL,
+reference_country_id INTEGER NOT NULL,
+description TEXT,
+brand TEXT,
+model TEXT,
+purchase_date DATE,
+expiration_daet DATE,
+
+FOREIGN KEY (reference_group_id) REFERENCES inventory_group(id_group),
+FOREIGN KEY (reference_country_id) REFERENCES inventory_country(id_country)
+);
+
+CREATE TABLE inventory_location (
+id_location INTEGER PRIMARY KEY NOT NULL,
+country TEXT,
+city TEXT,
+street TEXT,
+description TEXT,
+reference_item_id INTEGER,
+
+FOREIGN KEY (reference_item_id) REFERENCES inventory(id_item)
+);
+
+
+CREATE TABLE inventory_history (
+id_history INTEGER PRIMARY KEY NOT NULL,
+reference_user_id INTEGER,
+reference_item_id INTEGER,
+reference_location_id INTEGER,
+assigned_date DATE NOT NULL,
+return_date DATE,
+
+FOREIGN KEY (reference_item_id) REFERENCES inventory(id_item),
+FOREIGN KEY (reference_user_id) REFERENCES inventory_users(id_user),
+FOREIGN KEY (reference_location_id) REFERENCES inventory_location(id_location)
+);
+</sql><current_tab id="0"/></tab_sql></sqlb_project>
