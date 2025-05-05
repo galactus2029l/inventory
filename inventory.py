@@ -2,8 +2,8 @@ import sqlite3
 
 # 1. Conexión a la base de datos real
 sqliteConnection = sqlite3.connect('sqlite/inventory.db')
-cursor = sqliteConnection.cursor()
-'''
+
+
 # 2. Consulta para obtener las tablas
 sql_query = """SELECT name FROM sqlite_master WHERE type='table';"""
 
@@ -17,7 +17,7 @@ cursor.execute(sql_query)
 print("Tablas en la base de datos:")
 print(cursor.fetchall())
 
-'''
+
 # 6. Consulta para obtener los datos de la tabla inventory_type
 cursor.execute("SELECT * FROM inventory_type")
 
