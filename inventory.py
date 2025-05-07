@@ -27,5 +27,5 @@ for row in cursor.fetchall():
     print(row)
 
 # 8. Cierre de cursor y conexión
-cursor.close()
-sqliteConnection.close()
+#cursor.close()
+#sqliteConnection.close()
